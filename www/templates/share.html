@@ -1,0 +1,14 @@
+<ion-view cache-view="false">
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        <button class="button button-icon icon hide-on-open" style="font-weight: bolder;font-size: 25px;font-family: cursive;color: yellow;">MU</button>
+    </ion-nav-buttons>
+    <ion-content ng-init="loadSong()" class="padding marginTop has-header" style="padding:10px 2px;" style="overflow-y:hidden;">
+
+        <div class="button-bar">
+            <button class="button" ng-click="shareViaFacebook('MixTape', null, 'http://mixtapeupload.net/admin/')"> <img ng-src="img/facebook.png"></button>
+            <button class="button" ng-click="shareViaWhatsApp('MixTape', null, 'http://mixtapeupload.net/admin/')"><img ng-src="img/whatsapp.png"></button>
+        </div>
+    </ion-content>
+
+</ion-view>

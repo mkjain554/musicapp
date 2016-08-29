@@ -1,0 +1,18 @@
+<ion-view>
+
+    <ion-content class="padding marginTop has-header" style="padding:10px 2px;" style="overflow-y:hidden;">
+        <ion-header-bar style="background-color:#1A3866;" align-title="left" class="bar-dark">
+            <h1 class="title">Coming Soon</h1>
+        </ion-header-bar>
+        <ion-scroll direction="y" style="height: calc(100% - 0px);">
+            <ion-list>
+                <ion-item ng-click="selectVideo(video)" class="albums fullImage cs" ng-repeat="video in videosList">
+                    <h3>{{video.title}}</h3>
+                    <ng-youtube-embed url="video.url" width="300px" height="300px" autohide="true" theme="light">
+                    </ng-youtube-embed>
+                </ion-item>
+            </ion-list>
+            <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
+        </ion-scroll>
+    </ion-content>
+</ion-view>

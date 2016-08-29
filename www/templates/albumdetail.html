@@ -1,0 +1,44 @@
+<ion-view>
+    <ion-content class="  marginTop">
+        <div class="list card">
+            <div class="item">
+                <h2>{{selectedAlbumVar.albums_name}}</h2>
+            </div>
+
+            <div class="item item-body">
+                <img class="full-image" ng-src="{{selectedAlbumVar.al_image_url}}">
+                <ion-list>
+                    <ion-item ng-repeat="song in selectedAlbumVar.songs" class="item-button-right" style="padding-right: 10px;">
+                        <div>
+                            <span ng-click="loadSong(song,$index)">{{song.song_name}}</span>
+                            <button style="float:right;line-height:0;min-height:0;" class="button button-icon" ng-show="song.user_feedback == 'y'" ng-click="unlikeSong(song)">
+                                <img ng-src="img/like.png">
+                            </button>
+
+                            <span ng-show="song.total_likes > 0" style="position: absolute;right: 50px; margin: 5px 0 0 0;">{{song.total_likes}}</span>
+                            <button style="float:right;line-height:0;min-height:0;" class="button button-icon" ng-show="song.user_feedback == 'n'" ng-click="likeSong(song)">
+                                <img ng-src="img/unlike.png">
+                            </button>
+                            <button style="float: right;min-height: 0;position: absolute;right: 64px;margin: 5px 0 0 0;line-height: 0" ng-click="download(song)" class="button button-icon ion-code-download"></button>
+
+                            <!--<div star-rating ng-model="song.rating" max="5" on-rating-select="rateFunction(rating,song.id)"></div>-->
+                        </div>
+            </div>
+            </ion-item>
+            </ion-list>
+        </div>
+        </div>
+    </ion-content>
+    <div style="position:fixed;left:0;right:0;bottom:0;height:50px;background-color:#714B4B;">
+        <div>
+            <img ng-src="{{selectedAlbumVar.al_image_url}}" style="width:50px; float:left;display:inline-block;">
+            <h5 style="color:#fff; float:left;display:inline-block;margin:0;padding: 18px 10px;">Hick Vich Jaan</h5>
+            <button ng-show="!togglePlayPause" class="button button-icon" ng-show="!song.star" ng-click="loadSong(song)" style="padding: 4px 15px;float: right;color: red;">
+                <i class="icon ion-play"></i>
+            </button>
+            <button ng-show="togglePlayPause" class="button button-icon" ng-show="!song.star" ng-click="pauseSong(song)" style="padding: 4px 15px;float: right;color: #fff;">
+                <i class="icon ion-pause"></i>
+            </button>
+        </div>
+    </div>
+</ion-view>

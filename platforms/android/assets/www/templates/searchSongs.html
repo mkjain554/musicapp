@@ -1,0 +1,23 @@
+<ion-view>
+
+    <div class="bar bar-header backBlue item-input-inset">
+        <!--        <button class="button button-clear" ui-sref="root.videos"></button>-->
+        <label class="item-input-wrapper">
+            <i class="icon ion-ios-search placeholder-icon"></i>
+            <input type="text" placeholder="Search" ng-keypress="keypressevt()" ng-model="$root.searchText" />
+        </label>
+        <button class="button button-clear" ui-sref="root.videos">
+            Cancel
+        </button>
+    </div>
+    <ion-content class="padding marginTop" style="padding:10px 2px;" style="overflow-y:hidden;">
+        <ion-scroll direction="y" style="height: calc(100% - 0px);">
+            <ion-list>
+                <ion-item ng-click="selectedAlbum(album)" class="albums fullImage album-thumb" ng-repeat="album in searchedItemArray" href="#/root/videos-single/{{album.id}}">
+                    <img ng-src="http://www.mixtapeupload.net//admin//{{album.al_image_url}}" alt="{{album.al_image_url}}" style="width:100%;height:100%;">
+                </ion-item>
+            </ion-list>
+            <!--<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>-->
+        </ion-scroll>
+    </ion-content>
+</ion-view>

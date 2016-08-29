@@ -1,0 +1,63 @@
+<ion-side-menus>
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-positive nav-title-slide backBlue">
+
+            <ion-nav-buttons side="right">
+                <!--                <button class="button button-icon icon" style="font-weight: bolder;font-size: 25px;font-family: cursive;color: yellow;">MU</button>-->
+                <button class="button button-icon icon ion-android-search" ui-sref="searchSongs"></button>
+                <button class="button button-icon icon ion-android-notifications"></button>
+                <button class="button button-icon icon ion-android-more-vertical"></button>
+
+            </ion-nav-buttons>
+            <ion-nav-back-button class="button-clear"><i class="icon ion-arrow-back"></i></ion-nav-back-button>
+        </ion-nav-bar>
+        <ion-nav-view name="main-content" animation="slide-left-right"></ion-nav-view>
+
+    </ion-side-menu-content>
+    <ion-side-menu side="left">
+        <ion-header-bar class="bar bar-header bar-positive backBlue">
+            <!--            <h1 class="title">MU</h1>-->
+            <button class="button button-icon icon" style="    font-weight: bolder;font-size: 25px;font-family: cursive;color: yellow;">MU</button>
+        </ion-header-bar>
+        <ion-content has-header="true" class="colorBlue">
+            <ion-list>
+                <ion-item menu-close ui-sref="root.videos">
+                    Home
+                </ion-item>
+                <ion-item menu-close ui-sref="root.comingsoon">
+                    Coming Soon
+                </ion-item>
+                <ion-item menu-close ui-sref="root.youtube">
+                    Videos
+                </ion-item>
+                <ion-item menu-close ui-sref="root.favouites">
+                    Favourite
+                </ion-item>
+                <ion-item menu-close ui-sref="root.downloaded">
+                    My Downloads
+                </ion-item>
+                <ion-item menu-close ui-sref="root.share">
+                    Share
+                </ion-item>
+                <ion-item ng-show="!$root.user && !$root.user.id" menu-close ui-sref="root.login">
+                    Login
+                </ion-item>
+                <ion-item ng-show="$root.user && $root.user.id" ng-click="logout()">
+                    Log Out
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
+
+</ion-side-menus>
+
+<script id="my-modal.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar>
+            <h1 class="title">My Modal title</h1>
+        </ion-header-bar>
+        <ion-content>
+            Hello!
+        </ion-content>
+    </ion-modal-view>
+</script>
