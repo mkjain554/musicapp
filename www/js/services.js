@@ -75,7 +75,7 @@
         return {
             getAlbumDetail: getAlbumDetail,
             markFavourite: markFavourite,
-            unMarkFavourite: unMarkFavourite,
+            //unMarkFavourite: unMarkFavourite,
             addSongFeedback: addSongFeedback,
             likeSong: likeSong
         };

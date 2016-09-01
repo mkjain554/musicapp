@@ -7,7 +7,7 @@
         <ion-scroll direction="y" style="height: calc(100% - 0px);">
             <ion-list>
                 <ion-item style="padding:10px !important;" ng-click="selectedAlbum(album)" class="albums fullImage cs" ng-repeat="album in hotAlbums" href="#/root/hot-single/{{album.id}}">
-                    <img ng-src="http://www.mixtapeupload.net/admin/{{album.song_image_url}}" alt="{{album.song_image_url}}" style="width:100%;height:100%;">
+                    <img ng-src="{{album.song_image_url}}" alt="{{album.song_image_url}}" style="width:100%;height:100%;">
                 </ion-item>
             </ion-list>
             <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>

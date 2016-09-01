@@ -25,10 +25,10 @@
         <div>
             <img ng-src="{{selectedAlbumVar.al_image_url}}" style="width:50px; float:left;display:inline-block;">
             <h5 style="color:#fff; float:left;display:inline-block;margin:0;padding: 18px 10px;">{{sAlbum.song_name}}</h5>
-            <button ng-show="!togglePlayPause" class="button button-icon" ng-show="!song.star" ng-click="playSong(song)" style="padding: 4px 15px;float: right;color: red;">
+            <button ng-show="!togglePlayPause" class="button button-icon" ng-show="!song.star" ng-click="playSong()" style="padding: 4px 15px;float: right;color: red;">
                 <i class="icon ion-play"></i>
             </button>
-            <button ng-show="togglePlayPause" class="button button-icon" ng-show="!song.star" ng-click="pauseSong(song)" style="padding: 4px 15px;float: right;color: #fff;">
+            <button ng-show="togglePlayPause" class="button button-icon" ng-show="!song.star" ng-click="pauseSong()" style="padding: 4px 15px;float: right;color: #fff;">
                 <i class="icon ion-pause"></i>
             </button>
         </div>

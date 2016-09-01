@@ -18,6 +18,7 @@ angular.module('starter').controller('AlbumDetailCtrl', function ($scope, $state
     })
 
     var mediaStatusCallback = function (status) {
+        console.log("called with status>>>" + status);
         if (status == 1) {
             $ionicLoading.show({
                 template: 'Loading...'
@@ -28,7 +29,7 @@ angular.module('starter').controller('AlbumDetailCtrl', function ($scope, $state
     }
     $scope.pauseSong = function () {
         $rootScope.currentPosition = $rootScope.media.getCurrentPosition();
-        $scope.togglePlayPause = !$scope.togglePlayPause;
+        //$scope.togglePlayPause = !$scope.togglePlayPause;
         $rootScope.media.pause();
     }
     $scope.playSelectedSong = function (song, index) {
@@ -40,15 +41,15 @@ angular.module('starter').controller('AlbumDetailCtrl', function ($scope, $state
             $rootScope.media.stop();
             delete $rootScope.media;
             delete $rootScope.currentPosition;
+            $scope.togglePlayPause = !$scope.togglePlayPause;
         }
         $scope.togglePlayPause = !$scope.togglePlayPause;
         if (src) {
             var media = new Media(src, null, null, mediaStatusCallback);
-            $rootScope.media = media;
             media.play();
+            $rootScope.media = media;
         } else {
-
-            var media = new Media($scope.selectedSong.song_url, null, null, mediaStatusCallback);
+            var media = new Media($scope.selected_song_url, null, null, mediaStatusCallback);
             $rootScope.media = media;
             if ($rootScope.currentPosition) {
                 $rootScope.media.seekTo($rootScope.currentPosition);
@@ -170,11 +171,22 @@ angular.module('starter').controller('AlbumDetailCtrl', function ($scope, $state
             });
     }
     $scope.loadSong = function (song) {
-        var song_url = song.song_url;
-        var songName = song_url.substring(song_url.lastIndexOf("/") + 1);
+        var song_url, songName;
+        if (!$scope.selected_song_url && song) {
+            song_url = song.song_url;
+            $scope.selected_song_url = song_url;
+            songName = song_url.substring(song_url.lastIndexOf("/") + 1);
+            $scope.songName = songName.substring(0, 12) + ".....";
+        } else {
+            song_url = $scope.selected_song_url;
+            songName = $scope.songName
+        }
+
         /*$ionicLoading.show({
             template: 'Loading...'
         });*/
+        console.log("song_url..." + song_url);
+        console.log("songName..." + songName);
         try {
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
                     fs.root.getDirectory(

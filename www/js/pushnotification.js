@@ -189,7 +189,7 @@ function onNotificationAPN(e) {
 
 function sendDataToServerFromAndroid(GCMDeviceToken) {
     var gcm_id = GCMDeviceToken;
-    alert("gcm_id>>>>>>>>>" + gcm_id);
+    //alert("gcm_id>>>>>>>>>" + gcm_id);
     localStorage.setItem("gcm_id", gcm_id);
     localStorage.setItem("device_id", deviceToken)
         //var GCMandDeviceToken_URL = "http://209.160.65.49:1091/webservice/add_token.php";
