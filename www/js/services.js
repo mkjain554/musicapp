@@ -74,25 +74,10 @@
     function albumDetail($http) {
         return {
             getAlbumDetail: getAlbumDetail,
-            markFavourite: markFavourite,
-            //unMarkFavourite: unMarkFavourite,
-            addSongFeedback: addSongFeedback,
-            likeSong: likeSong
+            likeSong: likeSong,
+            unlikeSong: unlikeSong
         };
 
-        function addSongFeedback(songid, user_id, score) {
-            return $http({
-                    method: "GET",
-                    url: "http://mixtapeupload.net/webservices/add_song_feedback.php?user_id=" + user_id + "&song_id=" + songid + "&score=" + score
-                })
-                .success(function (res, status, headers, config) {
-                    return res.data;
-                })
-                .error(function (res, status, headers, config) {
-                    return res;
-                });
-
-        }
 
         function getAlbumDetail(page, songid, userid) {
 
@@ -109,6 +94,7 @@
         }
 
         function likeSong(song, user_id) {
+            console.log("like song called in albumdetail service >>>>>>>>>>>>>>>>>");
             return $http({
                     method: "GET",
                     url: "http://mixtapeupload.net/webservices/add_song_feedback.php?song_id=" + song.id + "&user_id=" + user_id + "&is_like=1"
@@ -121,18 +107,7 @@
                 });
         }
 
-        function markFavourite(song, user_id) {
-            return $http({
-                    method: "GET",
-                    url: "http://mixtapeupload.net/webservices/add_single_favorite.php?song_id=" + song.id + "&user_id=" + user_id
-                })
-                .success(function (res, status, headers, config) {
-                    return res.data;
-                })
-                .error(function (res, status, headers, config) {
-                    return res;
-                });
-        }
+
 
         function unlikeSong(song, user_id) {
             return $http({
@@ -319,6 +294,98 @@
                 });
         }
     }
+})();
+(function () {
+    "use strict";
+    angular.module('starter').factory('songplayer', ['albumDetail', '$rootScope', '$ionicLoading', '$cordovaMedia', function (albumDetail, $rootScope, $ionicLoading, $cordovaMedia) {
+
+        var mediaStatusCallback = function (status) {
+            console.log("mediaStatusCallback Called with status>>>>>" + status);
+            if (status == 1) {
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
+            } else {
+                $ionicLoading.hide();
+            }
+        }
+        var playSong = function (src) {
+            if ($rootScope && $rootScope.media) {
+                $rootScope.media.stop();
+                delete $rootScope.media;
+                delete $rootScope.currentPosition;
+            }
+            if (src) {
+                var media = new Media(src, null, null, mediaStatusCallback);
+
+                media.play();
+                $rootScope.media = media;
+            } else {
+                var media = new Media($scope.selected_song_url, null, null, mediaStatusCallback);
+                $rootScope.media = media;
+                if ($rootScope.currentPosition) {
+                    $rootScope.media.seekTo($rootScope.currentPosition);
+                }
+                media.play();
+            }
+        }
+
+        return {
+            pauseSong: function () {
+                $rootScope.media.getCurrentPosition(function (res) {
+                    $rootScope.currentPosition = res;
+                }, function (e) {
+                    console.log("errro in getting current position>>>>." + e)
+                });
+                $rootScope.media.pause();
+            },
+            loadSong: function (song) {
+
+                var song_url = song.song_url;
+                var songName = song_url.substring(song_url.lastIndexOf("/") + 1);
+                $rootScope.songName = songName.substring(0, 12) + ".....";
+
+                console.log("song_url..." + song_url);
+                console.log("songName..." + songName);
+                try {
+                    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+                            fs.root.getDirectory(
+                                "EP", {
+                                    create: true
+                                },
+                                function (dirEntry) {
+                                    dirEntry.getFile(
+                                        songName, {
+                                            create: false,
+                                            exclusive: false
+                                        },
+                                        function gotFileEntry(fe) {
+                                            //$ionicLoading.hide();
+                                            playSong(fe.toURL());
+                                            //$scope.imgFile = fe.toURL();
+                                        },
+                                        function (error) {
+                                            //$ionicLoading.hide();
+                                            console.log("Error getting file from downloads>>>>>> trying to play online");
+                                            playSong(song_url);
+                                        }
+                                    );
+                                }
+                            );
+                        },
+                        function () {
+                            //$ionicLoading.hide();
+                            console.log("Error requesting filesystem");
+                            playSong();
+                        });
+                } catch (err) {
+                    console.log("error in playing song...." + err);
+                }
+            }
+        };
+    }]);
+
+
 })();
 angular.module('starter.services', [])
     .service('UserService', function () {

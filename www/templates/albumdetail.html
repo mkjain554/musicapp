@@ -24,8 +24,6 @@
                                 <img ng-src="img/unlike.png">
                             </button>
                             <button style="float: right;min-height: 0;position: absolute;right: 64px;margin: 5px 0 0 0;line-height: 0" ng-click="download(song)" class="button button-icon ion-code-download"></button>
-
-                            <!--<div star-rating ng-model="song.rating" max="5" on-rating-select="rateFunction(rating,song.id)"></div>-->
                         </div>
             </div>
             </ion-item>
@@ -36,11 +34,11 @@
     <div style="position:fixed;left:0;right:0;bottom:0;height:50px;background-color:#714B4B;">
         <div>
             <img ng-src="{{selectedAlbumVar.al_image_url}}" style="width:50px; float:left;display:inline-block;">
-            <h5 style="color:#fff; float:left;display:inline-block;margin:0;padding: 18px 10px;">{{songName}}</h5>
-            <button ng-show="!togglePlayPause" class="button button-icon" ng-show="!song.star" ng-click="loadSong()" style="padding: 4px 15px;float: right;color: red;">
+            <h5 style="color:#fff; float:left;display:inline-block;margin:0;padding: 18px 10px;">{{songName}}{{playButton}}{{pauseButton}}</h5>
+            <button ng-show="!togglebutton" class="button button-icon" ng-show="!song.star" ng-click="play()" style="padding: 4px 15px;float: right;color: red;">
                 <i class="icon ion-play"></i>
             </button>
-            <button ng-show="togglePlayPause" class="button button-icon" ng-show="!song.star" ng-click="pauseSong()" style="padding: 4px 15px;float: right;color: #fff;">
+            <button ng-show="togglebutton" class="button button-icon" ng-show="!song.star" ng-click="pause()" style="padding: 4px 15px;float: right;color: #fff;">
                 <i class="icon ion-pause"></i>
             </button>
         </div>
