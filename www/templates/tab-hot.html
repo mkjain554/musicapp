@@ -12,19 +12,19 @@
             </ion-list>
             <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
         </ion-scroll>
-        <div style="position:fixed;left:0;right:0;bottom:0;height:50px;background-color:#714B4B;">
-            <div>
-                <img ng-src="{{selectedAlbumVar.al_image_url}}" style="width:50px; float:left;display:inline-block;">
-                <h5 style="color:#fff; float:left;display:inline-block;margin:0;padding: 18px 10px;">Hick Vich Jaan</h5>
-                <button ng-show="!togglePlayPause" class="button button-icon" ng-show="!song.star" ng-click="loadSong(song)" style="padding: 4px 15px;float: right;color: red;">
-                    <i class="icon ion-play"></i>
-                </button>
-                <button ng-show="togglePlayPause" class="button button-icon" ng-show="!song.star" ng-click="pauseSong(song)" style="padding: 4px 15px;float: right;color: #fff;">
-                    <i class="icon ion-pause"></i>
-                </button>
-            </div>
-        </div>
     </ion-content>
+    <div style="position:fixed;left:0;right:0;bottom:0;height:50px;background-color:#714B4B;" ng-class="{ 'bottom50': iosPlatform}">
+        <div>
+            <img ng-src="{{selectedAlbumVar.al_image_url}}" style="width:50px; float:left;display:inline-block;">
+            <h5 style="color:#fff; float:left;display:inline-block;margin:0;padding: 18px 10px;">{{songName}}{{togglebutton}}</h5>
+            <button ng-show="!togglebutton" class="button button-icon" ng-show="!song.star" ng-click="play()" style="padding: 4px 15px;float: right;color: red;">
+                <i class="icon ion-play"></i>
+            </button>
+            <button ng-show="togglebutton" class="button button-icon" ng-show="!song.star" ng-click="pause()" style="padding: 4px 15px;float: right;color: #fff;">
+                <i class="icon ion-pause"></i>
+            </button>
+        </div>
+    </div>
     <ion-tabs class="tabs-icon-top tabs-color-active-positive background">
         <!-- Videos Tab -->
         <ion-tab title="New Music " href="#/root/newMusic"></ion-tab>

@@ -34,7 +34,7 @@
     <div style="position:fixed;left:0;right:0;bottom:0;height:50px;background-color:#714B4B;">
         <div>
             <img ng-src="{{selectedAlbumVar.al_image_url}}" style="width:50px; float:left;display:inline-block;">
-            <h5 style="color:#fff; float:left;display:inline-block;margin:0;padding: 18px 10px;">{{songName}}{{playButton}}{{pauseButton}}</h5>
+            <h5 style="color:#fff; float:left;display:inline-block;margin:0;padding: 18px 10px;">{{songName}}{{togglebutton}}</h5>
             <button ng-show="!togglebutton" class="button button-icon" ng-show="!song.star" ng-click="play()" style="padding: 4px 15px;float: right;color: red;">
                 <i class="icon ion-play"></i>
             </button>

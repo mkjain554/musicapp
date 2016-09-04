@@ -71,7 +71,6 @@ angular.module('starter').controller('AlbumDetailCtrl', function ($scope, $state
             song = $rootScope.song;
             if (song) {
                 $scope.togglebutton = true;
-                $scope.togglebutton = !$scope.togglebutton
                 songplayer.loadSong(song);
             }
         } else {
@@ -83,12 +82,12 @@ angular.module('starter').controller('AlbumDetailCtrl', function ($scope, $state
 
     $scope.play = function () {
         if ($rootScope.song) {
-            $scope.togglebutton = false;
+            $scope.togglebutton = true;
         }
         $scope.loadSong();
     }
     $scope.pause = function () {
-        $scope.togglebutton = true;
+        $scope.togglebutton = false;
         songplayer.pauseSong();
     }
 

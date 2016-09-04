@@ -1,4 +1,4 @@
-angular.module('starter').controller('VideosCtrl', function ($scope, $http, $rootScope, $state, allAlbums) {
+angular.module('starter').controller('VideosCtrl', function ($scope, $http, $rootScope, $state, allAlbums, songplayer) {
     $scope.onTouch = function () {
         $state.go("currentsong");
     }
@@ -46,5 +46,32 @@ angular.module('starter').controller('VideosCtrl', function ($scope, $http, $roo
     $scope.selectedAlbum = function (item) {
         $scope.selectedAlbumVar = item;
         $rootScope.selectedAlbumVar = item;
+    }
+
+
+    $scope.loadSong = function (song) {
+        if (!song) {
+            $rootScope.song = $rootScope.song || undefined;
+            song = $rootScope.song;
+            if (song) {
+                $scope.togglebutton = true;
+                songplayer.loadSong(song);
+            }
+        } else {
+            $scope.togglebutton = true;
+            $rootScope.song = song;
+            songplayer.loadSong(song);
+        }
+    }
+
+    $scope.play = function () {
+        if ($rootScope.song) {
+            $scope.togglebutton = true;
+        }
+        $scope.loadSong();
+    }
+    $scope.pause = function () {
+        $scope.togglebutton = false;
+        songplayer.pauseSong();
     }
 });

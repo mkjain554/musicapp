@@ -1,4 +1,4 @@
-angular.module('starter').controller('HostedMusicCtrl', function ($scope, $http, $rootScope, $state, hostedAlbums) {
+angular.module('starter').controller('HostedMusicCtrl', function ($scope, $http, $rootScope, $state, hostedAlbums, songplayer) {
 
     $scope.pageNumber = 0;
     $scope.newAlbums = [];
@@ -27,6 +27,32 @@ angular.module('starter').controller('HostedMusicCtrl', function ($scope, $http,
     $scope.selectedAlbum = function (item) {
         $scope.selectedAlbumVar = item;
         $rootScope.selectedAlbumVar = item;
+    }
+
+    $scope.loadSong = function (song) {
+        if (!song) {
+            $rootScope.song = $rootScope.song || undefined;
+            song = $rootScope.song;
+            if (song) {
+                $scope.togglebutton = true;
+                songplayer.loadSong(song);
+            }
+        } else {
+            $scope.togglebutton = true;
+            $rootScope.song = song;
+            songplayer.loadSong(song);
+        }
+    }
+
+    $scope.play = function () {
+        if ($rootScope.song) {
+            $scope.togglebutton = true;
+        }
+        $scope.loadSong();
+    }
+    $scope.pause = function () {
+        $scope.togglebutton = false;
+        songplayer.pauseSong();
     }
 
 });

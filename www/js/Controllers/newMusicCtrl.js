@@ -29,4 +29,30 @@ angular.module('starter').controller('NewMusicCtrl', function ($scope, $http, $r
         $rootScope.selectedAlbumVar = item;
     }
 
+    $scope.loadSong = function (song) {
+        if (!song) {
+            $rootScope.song = $rootScope.song || undefined;
+            song = $rootScope.song;
+            if (song) {
+                $scope.togglebutton = true;
+                songplayer.loadSong(song);
+            }
+        } else {
+            $scope.togglebutton = true;
+            $rootScope.song = song;
+            songplayer.loadSong(song);
+        }
+    }
+
+    $scope.play = function () {
+        if ($rootScope.song) {
+            $scope.togglebutton = true;
+        }
+        $scope.loadSong();
+    }
+    $scope.pause = function () {
+        $scope.togglebutton = false;
+        songplayer.pauseSong();
+    }
+
 });
