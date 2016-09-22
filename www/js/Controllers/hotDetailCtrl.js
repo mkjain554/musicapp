@@ -1,4 +1,4 @@
-angular.module('starter').controller('HotDetailCtrl', function ($scope, $state, $rootScope, albumDetail, $cordovaMedia, $ionicLoading) {
+angular.module('starter').controller('HotDetailCtrl', function ($scope, $state, $rootScope, albumDetail, $cordovaMedia, $ionicLoading, songplayer) {
     var albumid = $state.params.id;
     for (var i = 0; i < $rootScope.allAlbums.length; i++) {
         if ($rootScope.allAlbums[i].id == albumid) {
@@ -7,45 +7,83 @@ angular.module('starter').controller('HotDetailCtrl', function ($scope, $state, 
     }
 
 
-    var mediaStatusCallback = function (status) {
-        if (status == 1) {
-            $ionicLoading.show({
-                template: 'Loading...'
+    $rootScope.songName = $rootScope.songName || '';
+
+    $scope.download = function (song) {
+        var song_url = song.song_url;
+        var songName = song_url.substring(song_url.lastIndexOf("/") + 1);
+        $ionicLoading.show({
+            template: 'Loading...'
+        });
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+                fs.root.getDirectory(
+                    "EP", {
+                        create: true
+                    },
+                    function (dirEntry) {
+                        dirEntry.getFile(
+                            songName, {
+                                create: true,
+                                exclusive: false
+                            },
+                            function gotFileEntry(fe) {
+                                var p = fe.toURL();
+                                fe.remove();
+                                ft = new FileTransfer();
+                                ft.download(
+                                    encodeURI(song_url),
+                                    p,
+                                    function (entry) {
+                                        $ionicLoading.hide();
+                                        console.log(entry.toURL());
+                                        //$scope.imgFile = entry.toURL();
+                                    },
+                                    function (error) {
+                                        alert(error);
+                                        $ionicLoading.hide();
+                                        alert("Download Error Source -> " + error.source);
+                                    },
+                                    false,
+                                    null
+                                );
+                            },
+                            function () {
+                                $ionicLoading.hide();
+                                console.log("Get file failed");
+                            }
+                        );
+                    }
+                );
+            },
+            function () {
+                $ionicLoading.hide();
+                console.log("Request for filesystem failed");
             });
-        } else {
-            $ionicLoading.hide();
-        }
     }
-    $scope.pauseSong = function () {
-        $rootScope.currentPosition = $rootScope.media.getCurrentPosition();
-        $scope.togglePlayPause = !$scope.togglePlayPause;
-        $rootScope.media.pause();
-    }
-    $scope.playSelectedSong = function (song, index) {
-        $scope.selectedSong = song;
-        $scope.playSong(song.song_url, index);
-    }
-    $scope.playSong = function (src, index) {
-        if ($rootScope && $rootScope.media) {
-            $rootScope.media.stop();
-            delete $rootScope.media;
-            delete $rootScope.currentPosition;
-        }
-        $scope.togglePlayPause = !$scope.togglePlayPause;
-        if (src) {
-            var media = new Media(src, null, null, mediaStatusCallback);
-            $rootScope.media = media;
-            media.play();
-        } else {
-
-            var media = new Media($scope.selectedSong.song_url, null, null, mediaStatusCallback);
-            $rootScope.media = media;
-            if ($rootScope.currentPosition) {
-                $rootScope.media.seekTo($rootScope.currentPosition);
+    $scope.loadSong = function (song) {
+        $rootScope.songplayer = true;
+        if (!song) {
+            $rootScope.song = $rootScope.song || undefined;
+            song = $rootScope.song;
+            if (song) {
+                $scope.togglebutton = true;
+                songplayer.loadSong(song);
             }
-            media.play();
+        } else {
+            $scope.togglebutton = true;
+            $rootScope.song = song;
+            songplayer.loadSong(song);
         }
     }
 
-
+    $scope.play = function () {
+        if ($rootScope.song) {
+            $scope.togglebutton = true;
+        }
+        $scope.loadSong();
+    }
+    $scope.pause = function () {
+        $scope.togglebutton = false;
+        songplayer.pauseSong();
+    }
 });

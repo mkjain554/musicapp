@@ -6,9 +6,6 @@ angular.module('starter').controller('AlbumDetailCtrl', function ($scope, $state
     promise.then(function (response) {
         if (response && response.data && response.data.data) {
             $scope.selectedAlbumVar.songs = response.data.data;
-            for (var i = 0; i < $scope.selectedAlbumVar.songs.length; i++) {
-                $scope.selectedAlbumVar.songs[i].rating = 1;
-            }
         }
     });
 
@@ -66,6 +63,8 @@ angular.module('starter').controller('AlbumDetailCtrl', function ($scope, $state
             });
     }
     $scope.loadSong = function (song) {
+        $rootScope.mediaStatus = 4;
+        $rootScope.songplayer = true;
         if (!song) {
             $rootScope.song = $rootScope.song || undefined;
             song = $rootScope.song;
@@ -80,7 +79,26 @@ angular.module('starter').controller('AlbumDetailCtrl', function ($scope, $state
         }
     }
 
+    $rootScope.$watch('mediaStatus', function (newValue, oldValue) {
+        console.log("inside watch with value>>>" + newValue);
+        if (newValue == 4) {
+            var song;
+            for (var i = 0; i < $scope.selectedAlbumVar.songs.length; i++) {
+
+                if ($scope.selectedAlbumVar.songs[i].id = $rootScope.song.id) {
+                    song = $scope.selectedAlbumVar.songs[i]
+                    break;
+                }
+            }
+            console.log(song);
+            if (song) {
+                $scope.loadSong(song);
+            }
+        }
+    });
+
     $scope.play = function () {
+        $rootScope.mediaStatus = 4;
         if ($rootScope.song) {
             $scope.togglebutton = true;
         }

@@ -301,6 +301,7 @@
 
         var mediaStatusCallback = function (status) {
             console.log("mediaStatusCallback Called with status>>>>>" + status);
+            $rootScope.mediaStatus = status;
             if (status == 1) {
                 $ionicLoading.show({
                     template: 'Loading...'

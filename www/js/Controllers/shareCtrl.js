@@ -28,5 +28,13 @@ angular.module('starter').controller('ShareCtrl', function ($scope, $cordovaSoci
         });
     }
 
+    $scope.shareViaTwitter = function (message, image, link) {
+        $cordovaSocialSharing.canShareVia("twitter", message, image, link).then(function (result) {
+            $cordovaSocialSharing.shareViaTwitter(message, image, link);
+        }, function (error) {
+            alert("Cannot share on twitter");
+        });
+    }
+
 
 });
